@@ -195,8 +195,6 @@ if uploaded_file:
             from sklearn.metrics import roc_curve, auc # 確保有匯入
             fpr, tpr, _ = roc_curve(y_test, y_probs)
             roc_auc = auc(fpr, tpr)
-        else:
-            st.info("要勾選上方的「模型評估報表」才能看到喔")
             
 # --- 顯示 ---
             st.markdown("### 1. 量化指標 (Classification Report)")
@@ -220,5 +218,7 @@ if uploaded_file:
                 ax_roc.plot([0, 1], [0, 1], color='navy', linestyle='--')
                 ax_roc.legend(loc="lower right")
                 st.pyplot(fig_roc)
+        else:
+            st.info("要勾選上方的「模型評估報表」才能看到喔")                
 else:
     st.warning("請先上傳 CSV 檔案。")
