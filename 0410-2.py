@@ -23,7 +23,7 @@ with st.container(border=True):
     uploaded_file = st.file_uploader("請先上傳你的 CSV 檔", type=["csv"])
     st.divider()
     
-    col1, col2, col3, col4 = st.columns([1, 2, 2, 3])
+    col1, col2, col3, col4 = st.columns([2, 2, 2, 3])
     
     with col1:
         st.write("**1.功能清單**")
