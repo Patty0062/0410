@@ -195,22 +195,8 @@ if uploaded_file:
             st.markdown("### 1. 量化指標 (Classification Report)")
             report_df = pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)).T
             st.dataframe(report_df, use_container_width=True)
-            
-            # 下載 CSV 按鈕
-            csv = report_df.to_csv().encode('utf-8')
-            st.download_button(
-                label="下載分類報表",
-                data=csv,
-                file_name=f'{algo_choice}_report.csv',
-                mime='text/csv',
-            )
-
             st.divider()
 
-            # --- 顯示與下載視覺化圖表 ---
-            st.markdown("### 2. 視覺化圖表")
-            res_col1, res_col2 = st.columns(2)
-            
             st.markdown("### 2. 視覺化圖表")
             res_col1, res_col2 = st.columns(2)
             with res_col1:
