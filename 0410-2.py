@@ -223,6 +223,17 @@ if uploaded_file:
 else:
     st.warning("請先上傳 CSV 檔案。")
     try:
-                st.image("0410.png","0410.png", caption="哥吉拉在等你勾選喔...", width=300)
-    except:
-                st.warning("圖片載入失敗，請檢查 GitHub 上的檔案名稱是否正確。")
+                else:
+                     st.info("記得上傳 CSV 檔，哥吉拉都在等你喔！")
+        
+                     # 建立三個欄位
+                     col_img1, col_img2, col_img3 = st.columns(3)
+         
+                     with col_img1:
+                         st.image("0410-2.png", caption="哥吉拉在等人")
+        
+                     with col_img2:
+                         st.image("0410.png", caption="哥吉拉在表白")
+            
+                     with col_img3:
+                         st.image("0410-1.png", caption="哥吉拉被拒絕")
