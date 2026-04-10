@@ -222,8 +222,11 @@ if uploaded_file:
             st.info("要勾選上方的「模型評估報表」才能看到喔")                
 else:
     st.info("記得上傳 CSV 檔！")
+    col1, col2, col3 = st.columns(3)
         
-    try:
-        st.image("giphy.gif",width=300)
-    except:
-        st.warning("圖片載入失敗，請檢查 GitHub 上的檔案名稱是否正確。")
+    # 定義你想固定的寬度 (單位是像素)
+    img_width = 180 
+        
+    # 2. 在各自的欄位中放置圖片，並設定固定寬度
+    with col2:
+         st.image("giphy.gif")
