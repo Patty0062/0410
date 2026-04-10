@@ -229,7 +229,7 @@ else:
         st.image("0410-2.png")
         
     with col_img2:
-        st.image("0410-3.png")
+        st.image("0410-5.png")
 
     with col_img3:
         st.image("0410-1.png")
