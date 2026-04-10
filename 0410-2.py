@@ -27,7 +27,7 @@ with st.container(border=True):
     
     with col1:
         st.write("**1.功能清單**")
-        show_summary = st.checkbox("數據摘要", value=True)
+        show_summary = st.checkbox("基本資訊")
         show_corr = st.checkbox("特徵相關性矩陣")
         show_ml = st.checkbox("模型評估報表")
 
@@ -58,8 +58,6 @@ with st.container(border=True):
             
         with col4:
             st.write("**4. 演算法參數微調**")
-            # 在訓練前先設定為 None
-            y_pred = None
             # --- 輸入框 ---
             if algo_choice == "支持向量機 (SVM)":
                 kernel_type = st.radio("Kernel (核函數)", ["rbf", "linear"], horizontal=True)
@@ -143,7 +141,8 @@ if uploaded_file:
                 # 同時顯示數值表格
                 st.write("詳細計數：")
                 st.table(dist)
-
+        else:
+            st.info("要勾選上方的「基本資訊」才能看到喔")
     with tab2:
         if show_corr:
             st.subheader("特徵相關性矩陣")
