@@ -237,4 +237,7 @@ else:
     col1, col2, col3 = st.columns(3)
 
     with col2:
-         st.image("giphy.gif")
+        pot_list = ["giphy.gif", "0410-8.gif", "pika.gif"]
+        
+        # 隨機選一個
+        random_pot = random.choice(pot_list)
