@@ -20,7 +20,7 @@ st.title("數據分析與演算法小工具")
 
 with st.container(border=True):
     st.subheader("請先上傳你的 CSV 檔")
-    uploaded_file = st.file_uploader( type=["csv"])
+    uploaded_file = st.file_uploader
     st.divider()
     
     col1, col2, col3, col4 = st.columns([2, 2, 2, 3])
