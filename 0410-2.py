@@ -27,7 +27,7 @@ with st.container(border=True):
     col1, col2, col3, col4 = st.columns([2, 2, 2, 3])
     
     with col1:
-        st.write("**1. 分析開關**")
+        st.write("**1. 選擇想要的分析方式**")
         show_summary = st.checkbox("數據摘要", value=True)
         show_corr = st.checkbox("相關性熱圖")
         show_ml = st.checkbox("執行 ML 訓練")
