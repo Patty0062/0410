@@ -58,6 +58,8 @@ with st.container(border=True):
             
         with col4:
             st.write("**4. 演算法參數微調**")
+            # 在訓練前先設定為 None
+            y_pred = None
             # --- 輸入框 ---
             if algo_choice == "支持向量機 (SVM)":
                 kernel_type = st.radio("Kernel (核函數)", ["rbf", "linear"], horizontal=True)
