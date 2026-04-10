@@ -28,7 +28,7 @@ with st.container(border=True):
     with col1:
         st.write("**1. 分析方法**")
         show_summary = st.checkbox("數據摘要", value=True)
-        show_corr = st.checkbox("相關性熱圖")
+        show_corr = st.checkbox("特徵相關性矩陣")
         show_ml = st.checkbox("執行 ML 訓練")
 
     if uploaded_file:
@@ -151,7 +151,7 @@ if uploaded_file:
             sns.heatmap(numeric_df.corr(), annot=True, cmap=custom_cmap, ax=ax_corr, fmt=".2f")
             st.pyplot(fig_corr)
         else:
-            st.info("要勾選上方的「相關性熱圖」才能看到喔")
+            st.info("要勾選上方的「特徵相關性矩陣」才能看到喔")
 
     with tab3:
         if show_ml:
@@ -204,7 +204,10 @@ if uploaded_file:
             with res_col1:
                 st.write("**混淆矩陣 (Confusion Matrix)**")
                 fig_cm, ax_cm = plt.subplots(figsize=(5, 4))
-                sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt='g', cmap="Blues", ax=ax_cm)
+                # 使用 sns.light_palette 根據顏色產生漸層色
+                custom_cmap = sns.light_palette("#CCCCFF", as_cmap=True)
+
+                sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt='g', cmap=custom_cmap, ax=ax_cm)
                 st.pyplot(fig_cm)
             
             with res_col2:
