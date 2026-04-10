@@ -143,6 +143,10 @@ if uploaded_file:
                 st.table(dist)
         else:
             st.info("要勾選上方的「基本資訊」才能看到喔")
+            aol1, aol2, aol3 = st.columns(3)
+
+            with aol2:
+                st.image("giphy.gif")
     with tab2:
         if show_corr:
             st.subheader("特徵相關性矩陣")
@@ -223,10 +227,6 @@ if uploaded_file:
 else:
     st.info("記得上傳 CSV 檔！")
     col1, col2, col3 = st.columns(3)
-        
-    # 定義你想固定的寬度 (單位是像素)
-    img_width = 180 
-        
-    # 2. 在各自的欄位中放置圖片，並設定固定寬度
+
     with col2:
          st.image("giphy.gif")
