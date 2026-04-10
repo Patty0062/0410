@@ -224,6 +224,6 @@ else:
     st.info("記得上傳 CSV 檔！")
         
     try:
-                st.image("giphy.gif",width=300)
-            except:
-                st.warning("圖片載入失敗，請檢查 GitHub 上的檔案名稱是否正確。")
+        st.image("giphy.gif",width=300)
+    except:
+        st.warning("圖片載入失敗，請檢查 GitHub 上的檔案名稱是否正確。")
