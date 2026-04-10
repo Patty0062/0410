@@ -241,3 +241,4 @@ else:
         
         # 隨機選一個
         random_pot = random.choice(pot_list)
+        st.image(random_pot, caption="隨機出現的驚喜！")
