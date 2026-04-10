@@ -228,7 +228,7 @@ if uploaded_file:
                 st.pyplot(fig_roc)
         else:
             st.info("要勾選上方的「模型評估報表」才能看到喔")  
-            aol1, aol2, aol3 = st.columns(3)
+            aol1, aol2, aol3 = st.columns([2,4, 1])
 
             with aol2:
                 st.image("0410-1.png")
