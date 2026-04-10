@@ -28,8 +28,8 @@ with st.container(border=True):
     with col1:
         st.write("**1.功能清單**")
         show_summary = st.checkbox("基本資訊")
-        show_corr = st.checkbox("特徵相關性矩陣")
-        show_ml = st.checkbox("模型評估報表")
+        show_corr = st.checkbox("相關性矩陣")
+        show_ml = st.checkbox("模型預測")
 
     if uploaded_file:
         df = pd.read_csv(uploaded_file)
@@ -79,7 +79,7 @@ with st.container(border=True):
 # --- 主數據顯示區 ---
 if uploaded_file:
     st.divider()
-    tab1, tab2, tab3 = st.tabs(["數據總覽", "關聯分析", "模型預測"])
+    tab1, tab2, tab3 = st.tabs(["數據總覽", "相關性矩陣", "模型預測"])
 
     with tab1:
         if show_summary:
