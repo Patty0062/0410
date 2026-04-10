@@ -224,12 +224,9 @@ else:
     st.info("記得上傳 CSV 檔！")
         
     # 建立三個欄位
-    col_img1, col_img2, col_img3 = st.columns(3)
+    col_img1, col_img2 = st.columns([2, 2])
     with col_img1:
-        st.image("0410-2.png", caption="哥吉拉在等人")
+        st.image("0410-2.png")
         
     with col_img2:
-        st.image("0410.png", caption="哥吉拉在表白")
-            
-    with col_img3:
-        st.image("0410-1.png", caption="哥吉拉被拒絕")
+        st.image("0410-1.png")
