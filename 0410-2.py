@@ -224,12 +224,13 @@ else:
     st.info("記得上傳 CSV 檔！")
         
     # 建立三個欄位
-    col_img1, col_img2 ,col_img3= st.columns([1 ,3 , 1])
+    col_img1, col_img2 ,col_img3= st.columns([1 , 4 , 1])
+    img_width = 180
     with col_img1:
-        st.image("0410-2.png")
+        st.image("0410-2.png", width=img_width)
         
     with col_img2:
-        st.image("0410-5.png")
+        st.image("0410-3.png", width=img_width)
 
     with col_img3:
-        st.image("0410-1.png")
+        st.image("0410-1.png", width=img_width)
