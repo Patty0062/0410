@@ -191,11 +191,9 @@ if uploaded_file:
             fpr, tpr, _ = roc_curve(y_test, y_probs)
             roc_auc = auc(fpr, tpr)
 
-# --- 顯示與下載 Classification Report ---
+# --- 顯示 ---
             st.markdown("### 1. 量化指標 (Classification Report)")
-            report_df = pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)).T
-            st.dataframe(report_df, use_container_width=True)
-            st.divider()
+            st.dataframe(pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)).T)
 
             st.markdown("### 2. 視覺化圖表")
             res_col1, res_col2 = st.columns(2)
