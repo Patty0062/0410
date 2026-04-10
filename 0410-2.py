@@ -230,7 +230,7 @@ else:
         st.image("0410-2.png", width=img_width)
         
     with col_img2:
-        st.image("0410-3.png", width=200)
+        st.image("giphy.gif")
 
     with col_img3:
         st.image("0410-1.png", width=img_width)
