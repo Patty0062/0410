@@ -223,7 +223,6 @@ if uploaded_file:
 else:
     st.warning("請先上傳 CSV 檔案。")
     try:
-                st.image("0410.png", caption="哥吉拉在等你勾選喔...", width=300)
-                st.image("0410.png", caption="哥吉拉在等你勾選喔...", width=300)
+                st.image("0410.png","0410.png", caption="哥吉拉在等你勾選喔...", width=300)
     except:
                 st.warning("圖片載入失敗，請檢查 GitHub 上的檔案名稱是否正確。")
