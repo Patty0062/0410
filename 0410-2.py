@@ -143,6 +143,10 @@ if uploaded_file:
                 st.table(dist)
         else:
             st.info("要勾選上方的「基本資訊」才能看到喔")
+            try:
+                st.image("0410.png", caption="哥吉拉在等你勾選喔...", width=300)
+            except:
+                st.warning("圖片載入失敗，請檢查 GitHub 上的檔案名稱是否正確。")
     with tab2:
         if show_corr:
             st.subheader("特徵相關性矩陣")
