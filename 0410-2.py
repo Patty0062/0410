@@ -26,10 +26,10 @@ with st.container(border=True):
     col1, col2, col3, col4 = st.columns([2, 2, 2, 3])
     
     with col1:
-        st.write("**1. 分析方法**")
+        st.write("**1.功能清單**")
         show_summary = st.checkbox("數據摘要", value=True)
         show_corr = st.checkbox("特徵相關性矩陣")
-        show_ml = st.checkbox("執行 ML 訓練")
+        show_ml = st.checkbox("模型評估報表")
 
     if uploaded_file:
         df = pd.read_csv(uploaded_file)
@@ -194,7 +194,9 @@ if uploaded_file:
             from sklearn.metrics import roc_curve, auc # 確保有匯入
             fpr, tpr, _ = roc_curve(y_test, y_probs)
             roc_auc = auc(fpr, tpr)
-
+        else:
+            st.info("要勾選上方的「模型評估報表」才能看到喔")
+            
 # --- 顯示 ---
             st.markdown("### 1. 量化指標 (Classification Report)")
             st.dataframe(pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)).T)
