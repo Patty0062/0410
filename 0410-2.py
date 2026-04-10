@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import io
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -81,7 +82,7 @@ if uploaded_file:
     st.divider()
     tab1, tab2, tab3 = st.tabs(["數據總覽", "關聯分析", "模型預測"])
 
-   with tab1:
+    with tab1:
         if show_summary:
             # --- 第一層：基本維度與缺失值 ---
             st.markdown("### 基本資訊")
@@ -144,6 +145,7 @@ if uploaded_file:
 
     with tab2:
         if show_corr:
+            st.markdown("### 相關係數矩陣圖")
             fig_corr, ax_corr = plt.subplots(figsize=(10, 5))
             sns.heatmap(df.select_dtypes(include=['number']).corr(), annot=True, cmap="vlag", ax=ax_corr, fmt=".2f")
             st.pyplot(fig_corr)
@@ -190,10 +192,26 @@ if uploaded_file:
             fpr, tpr, _ = roc_curve(y_test, y_probs)
             roc_auc = auc(fpr, tpr)
 
-            # 6. 顯示結果
+# --- 顯示與下載 Classification Report ---
             st.markdown("### 1. 量化指標 (Classification Report)")
-            st.dataframe(pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)).T)
+            report_df = pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)).T
+            st.dataframe(report_df, use_container_width=True)
+            
+            # 下載 CSV 按鈕
+            csv = report_df.to_csv().encode('utf-8')
+            st.download_button(
+                label="下載分類報表",
+                data=csv,
+                file_name=f'{algo_choice}_report.csv',
+                mime='text/csv',
+            )
 
+            st.divider()
+
+            # --- 顯示與下載視覺化圖表 ---
+            st.markdown("### 2. 視覺化圖表")
+            res_col1, res_col2 = st.columns(2)
+            
             st.markdown("### 2. 視覺化圖表")
             res_col1, res_col2 = st.columns(2)
             with res_col1:
