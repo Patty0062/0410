@@ -146,7 +146,7 @@ if uploaded_file:
             aol1, aol2, aol3 = st.columns(3)
 
             with aol2:
-                st.image("giphy.gif")
+                st.image("0410-2.png")
     with tab2:
         if show_corr:
             st.subheader("特徵相關性矩陣")
@@ -157,6 +157,10 @@ if uploaded_file:
             st.pyplot(fig_corr)
         else:
             st.info("要勾選上方的「相關性矩陣」才能看到喔")
+            aol1, aol2, aol3 = st.columns(3)
+
+            with aol2:
+                st.image("0410-4.png")
 
     with tab3:
         if show_ml:
@@ -223,7 +227,11 @@ if uploaded_file:
                 ax_roc.legend(loc="lower right")
                 st.pyplot(fig_roc)
         else:
-            st.info("要勾選上方的「模型評估報表」才能看到喔")                
+            st.info("要勾選上方的「模型評估報表」才能看到喔")  
+            aol1, aol2, aol3 = st.columns(3)
+
+            with aol2:
+                st.image("0410-1.png")
 else:
     st.info("記得上傳 CSV 檔！")
     col1, col2, col3 = st.columns(3)
