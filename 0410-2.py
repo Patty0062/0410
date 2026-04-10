@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
@@ -80,16 +81,66 @@ if uploaded_file:
     st.divider()
     tab1, tab2, tab3 = st.tabs(["數據總覽", "關聯分析", "模型預測"])
 
-    with tab1:
+   with tab1:
         if show_summary:
-            c1, c2 = st.columns([1, 2])
+            # --- 第一層：基本維度與缺失值 ---
+            st.markdown("### 基本資訊")
+            m1, m2, m3 = st.columns(3)
+            with m1:
+                st.metric("資料列數 (Rows)", df.shape[0])
+            with m2:
+                st.metric("資料欄數 (Columns)", df.shape[1])
+            with m3:
+                total_null = df.isnull().sum().sum()
+                st.metric("總缺失值數量", total_null)
+
+            st.divider()
+
+            # --- 第二層：特徵資訊與缺失值細節 ---
+            c1, c2 = st.columns(2)
             with c1:
-                st.write("資料維度：", df.shape)
-                st.dataframe(df.describe().T)
+                st.markdown("#### 特徵欄位與類型")
+                # 建立一個 DataFrame 來顯示欄位類型與缺失值
+                info_df = pd.DataFrame({
+                    "資料類型": df.dtypes.astype(str),
+                    "缺失值數量": df.isnull().sum(),
+                    "非空值數量": df.notnull().sum()
+                })
+                st.dataframe(info_df, use_container_width=True)
+            
             with c2:
-                fig, ax = plt.subplots(figsize=(6, 4))
-                sns.histplot(df[target_col], kde=True, ax=ax, color='#87AFC7')
-                st.pyplot(fig)
+                st.markdown("#### 各欄位統計摘要")
+                st.dataframe(df.describe().T)
+
+            st.divider()
+
+            # --- 第三層：數值分佈與類別分佈 (Label Distribution) ---
+            st.markdown("### 分佈分析")
+            d1, d2 = st.columns(2)
+            
+            with d1:
+                st.write(f"**數值型分佈: {target_col}**")
+                fig_hist, ax_hist = plt.subplots(figsize=(5, 3.5))
+                sns.histplot(df[target_col], kde=True, ax=ax_hist, color='#87AFC7')
+                st.pyplot(fig_hist)
+
+            with d2:
+                # 類別分佈 (Label Distribution)
+                # 檢查是否有我們建立的 'target' 欄位，或讓使用者選擇類別欄位
+                label_col = 'target' if 'target' in df.columns else df.select_dtypes(include=['object', 'int']).columns[-1]
+                st.write(f"**類別分布 (Label Distribution): `{label_col}`**")
+                
+                fig_pie, ax_pie = plt.subplots(figsize=(5, 3.5))
+                # 取得類別計數
+                dist = df[label_col].value_counts()
+                # 繪製圓餅圖
+                ax_pie.pie(dist, labels=dist.index, autopct='%1.1f%%', startangle=140, colors=sns.color_palette("pastel"))
+                ax_pie.axis('equal')  # 確保是圓形
+                st.pyplot(fig_pie)
+                
+                # 同時顯示數值表格
+                st.write("詳細計數：")
+                st.table(dist)
 
     with tab2:
         if show_corr:
