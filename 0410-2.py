@@ -223,14 +223,7 @@ if uploaded_file:
 else:
     st.info("記得上傳 CSV 檔！")
         
-    # 建立三個欄位
-    col_img1, col_img2 ,col_img3= st.columns([1 , 2 , 1])
-    img_width = 180
-    with col_img1:
-        st.image("0410-2.png", width=img_width)
-        
-    with col_img2:
-        st.image("giphy.gif")
-
-    with col_img3:
-        st.image("0410-1.png", width=img_width)
+    try:
+                st.image("giphy.gif",width=300)
+            except:
+                st.warning("圖片載入失敗，請檢查 GitHub 上的檔案名稱是否正確。")
