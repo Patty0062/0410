@@ -19,8 +19,8 @@ st.set_page_config(page_title="數學系人工智慧概論", layout="wide")
 st.title("數據分析與演算法小工具")
 
 with st.container(border=True):
-    st.subheader("請先上傳你的 CSV 檔")
-    uploaded_file = st.file_uploader
+    st.subheader("嗨嗨~")
+    uploaded_file = st.file_uploader("請先上傳你的 CSV 檔", type=["csv"])
     st.divider()
     
     col1, col2, col3, col4 = st.columns([2, 2, 2, 3])
