@@ -1,0 +1,5 @@
+primaryColor = "#ffe1b4"          # 霧面乾燥玫瑰 (用於按鈕、滑桿)
+backgroundColor = "#FDFCFB"       # 非常淡的米白 (不刺眼)
+secondaryBackgroundColor = "#F2F0EF" # 霧面淺灰 (用於上傳框)
+textColor = "#5D5D5D"             # 深灰文字 (比純黑柔和)
+font = "sans serif"
