@@ -19,7 +19,7 @@ with st.container(border=True):
     st.subheader("操作控制台")
     
     # 第一排：檔案上傳
-    uploaded_file = st.file_uploader("1. 請上傳你的 CSV 數據檔", type=["csv"])
+    uploaded_file = st.file_uploader("請先上傳你的 CSV 檔", type=["csv"])
     
     st.divider()
     
@@ -27,36 +27,36 @@ with st.container(border=True):
     col1, col2, col3, col4 = st.columns([2, 2, 2, 3])
     
     with col1:
-        st.write("**2. 分析開關**")
+        st.write("**1. 分析開關**")
         show_summary = st.checkbox("數據摘要", value=True)
         show_corr = st.checkbox("相關性熱圖")
         show_ml = st.checkbox("執行 ML 訓練")
 
     if uploaded_file:
         df = pd.read_csv(uploaded_file)
-        # 單車數據二元化邏輯
+        # 二元化邏輯
         if 'count' in df.columns:
             df['target'] = (df['count'] > df['count'].median()).astype(int)
         
         # 讓使用者選擇分析哪個欄位 (針對分布圖)
         with col2:
-            st.write("**3. 分布分析欄位**")
-            target_col = st.selectbox("選擇要觀察的欄位", df.select_dtypes(include=['number']).columns)
+            st.write("**2. 分布分析欄位**")
+            target_col = st.selectbox("選擇你要觀察的欄位", df.select_dtypes(include=['number']).columns)
 
         # 機器學習參數
         with col3:
-            st.write("**4. ML 參數設定**")
+            st.write("**3. ML 參數設定**")
             test_size = st.select_slider("測試集比例", options=[0.2, 0.3, 0.4], value=0.3)
             
         with col4:
-            st.write("**5. 演算法微調**")
+            st.write("**4. 演算法微調**")
             kernel_type = st.radio("SVM 核函數", ["rbf", "linear"], horizontal=True)
 
 # --- 主數據顯示區 ---
 if uploaded_file:
     st.divider()
     
-    # 使用 Tabs 讓介面更整潔
+    # 用 Tabs 讓介面更好看
     tab1, tab2, tab3 = st.tabs(["數據總覽", "關聯分析", "模型預測"])
 
     with tab1:
@@ -81,7 +81,7 @@ if uploaded_file:
             sns.heatmap(numeric_df.corr(), annot=True, cmap=custom_cmap, ax=ax_corr, fmt=".2f")
             st.pyplot(fig_corr)
         else:
-            st.info("請在上方勾選「相關性熱圖」以查看內容。")
+            st.info("要勾選上方的「相關性熱圖」才能看到喔")
 
     with tab3:
         if show_ml:
@@ -113,4 +113,4 @@ if uploaded_file:
                 sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt='g', cmap=custom_cmap, ax=ax_cm)
                 st.pyplot(fig_cm)
 else:
-    st.warning("請先上傳 CSV 檔案，上方控制台將會解鎖更多選項。")
+    st.warning("要先上傳 CSV 檔案喔")
