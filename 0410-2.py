@@ -14,19 +14,19 @@ from sklearn.metrics import classification_report, confusion_matrix, roc_curve, 
 
 # 基本設定
 sns.set_theme(style="whitegrid", palette="muted")
-st.set_page_config(page_title="專業機器學習儀表板", layout="wide")
+st.set_page_config(page_title="數學系人工智慧概論", layout="wide")
 
-st.title("數據分析與多演算法機器學習儀表板")
+st.title("數據分析與演算法小工具")
 
 with st.container(border=True):
-    st.subheader("操作控制台")
-    uploaded_file = st.file_uploader("請先上傳你的 CSV 數據檔", type=["csv"])
+    st.subheader("歡迎~~~~")
+    uploaded_file = st.file_uploader("請先上傳你的 CSV 檔", type=["csv"])
     st.divider()
     
     col1, col2, col3, col4 = st.columns([2, 2, 2, 3])
     
     with col1:
-        st.write("**1. 分析開關**")
+        st.write("**1. 分析方法**")
         show_summary = st.checkbox("數據摘要", value=True)
         show_corr = st.checkbox("相關性熱圖")
         show_ml = st.checkbox("執行 ML 訓練")
@@ -47,7 +47,7 @@ with st.container(border=True):
             test_size = test_size_percent / 100
             st.caption(f"訓練集: {100-test_size_percent}% | 測試集: {test_size_percent}%")
             
-            # --- 修改處：易懂的演算法名稱 ---
+            # --- 演算法名稱 ---
             algo_choice = st.selectbox("選擇演算法", [
                 "k-Nearest Neighbors (kNN)",
                 "決策樹 (Decision Tree)", 
@@ -58,7 +58,7 @@ with st.container(border=True):
             
         with col4:
             st.write("**4. 演算法參數微調**")
-            # --- 修改處：全部改為輸入框 ---
+            # --- 輸入框 ---
             if algo_choice == "支持向量機 (SVM)":
                 kernel_type = st.radio("Kernel (核函數)", ["rbf", "linear"], horizontal=True)
                 c_val = st.number_input("C (懲罰係數)", 0.01, 100.0, 1.0, 0.1)
@@ -144,10 +144,14 @@ if uploaded_file:
 
     with tab2:
         if show_corr:
-            st.markdown("### 相關係數矩陣圖")
+            st.subheader("特徵相關性矩陣")
             fig_corr, ax_corr = plt.subplots(figsize=(10, 5))
-            sns.heatmap(df.select_dtypes(include=['number']).corr(), annot=True, cmap="vlag", ax=ax_corr, fmt=".2f")
+            numeric_df = df.select_dtypes(include=['number'])
+            custom_cmap = sns.light_palette("#FFD8D8", as_cmap=True)
+            sns.heatmap(numeric_df.corr(), annot=True, cmap=custom_cmap, ax=ax_corr, fmt=".2f")
             st.pyplot(fig_corr)
+        else:
+            st.info("要勾選上方的「相關性熱圖」才能看到喔")
 
     with tab3:
         if show_ml:
