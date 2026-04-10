@@ -152,7 +152,7 @@ if uploaded_file:
             sns.heatmap(numeric_df.corr(), annot=True, cmap=custom_cmap, ax=ax_corr, fmt=".2f")
             st.pyplot(fig_corr)
         else:
-            st.info("要勾選上方的「特徵相關性矩陣」才能看到喔")
+            st.info("要勾選上方的「相關性矩陣」才能看到喔")
 
     with tab3:
         if show_ml:
