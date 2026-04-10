@@ -221,18 +221,15 @@ if uploaded_file:
         else:
             st.info("要勾選上方的「模型評估報表」才能看到喔")                
 else:
-    st.warning("請先上傳 CSV 檔案。")
-    try:
-        else:
-                 st.info("記得上傳 CSV 檔，哥吉拉都在等你喔！")
+    st.info("記得上傳 CSV 檔！")
         
-                 # 建立三個欄位
-                 col_img1, col_img2, col_img3 = st.columns(3)
-                 with col_img1:
-                     st.image("0410-2.png", caption="哥吉拉在等人")
+    # 建立三個欄位
+    col_img1, col_img2, col_img3 = st.columns(3)
+    with col_img1:
+        st.image("0410-2.png", caption="哥吉拉在等人")
         
-                 with col_img2:
-                     st.image("0410.png", caption="哥吉拉在表白")
+    with col_img2:
+        st.image("0410.png", caption="哥吉拉在表白")
             
-                 with col_img3:
-                     st.image("0410-1.png", caption="哥吉拉被拒絕")
+    with col_img3:
+        st.image("0410-1.png", caption="哥吉拉被拒絕")
