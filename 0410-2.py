@@ -33,8 +33,9 @@ with st.container(border=True):
         show_ml = st.checkbox("模型預測")
 
     if uploaded_file:
-        df = pd.read_csv(uploaded_file)
+        df = pd.read_csv(uploaded_file) # 讀取上傳的 CSV
         
+        # 二元化轉化（以中位數為界）
         if 'count' in df.columns:
             median_val = df['count'].median()
             # 高於中位數設為1(熱門), 低於或等於設為0(冷門)
@@ -42,18 +43,19 @@ with st.container(border=True):
         
         with col2:
             st.write("**2. 設定目標與分佈**")
+            # 從選擇的數值欄位中來畫分佈圖
             target_col = st.selectbox("選擇要觀察的欄位", df.select_dtypes(include=['number']).columns)
             #
         
         with col3:
             st.write("**3. 訓練設定**")
-            # --- 修改處：百分比顯示 ---
+            # 用滑動的方式設定測試集比例
             test_size_percent = st.slider("資料集比例 (%)", 20, 40, 30, 5)
             test_size = test_size_percent / 100
             
             st.caption(f"訓練集: {100-test_size_percent}% | 測試集: {test_size_percent}%")
             
-            # --- 演算法名稱 ---
+            # 演算法名稱，可以選擇要使用的演算法
             algo_choice = st.selectbox("選擇演算法", [
                 "k-Nearest Neighbors (kNN)",
                 "決策樹 (Decision Tree)", 
@@ -64,7 +66,8 @@ with st.container(border=True):
             
         with col4:
             st.write("**4. 演算法參數微調**")
-            # --- 輸入框 ---
+            # 根據選擇的演算法，來顯示對應的參數設定
+            
             if algo_choice == "支持向量機 (SVM)":
                 kernel_type = st.radio("Kernel (核函數)", ["rbf", "linear"], horizontal=True)
                 c_val = st.number_input("C (懲罰係數)", 0.01, 100.0, 1.0, 0.1)
@@ -82,7 +85,7 @@ with st.container(border=True):
             elif algo_choice == "邏輯斯迴歸 (Logistic Regression)":
                 c_lr = st.number_input("C (正則化強度)", 0.01, 100.0, 1.0, 0.1)
 
-# --- 主數據顯示區 ---
+# 主要的數據展示區
 if uploaded_file:
     st.divider()
     tab1, tab2, tab3 = st.tabs(["數據總覽", "相關性矩陣", "模型預測"])
@@ -106,7 +109,7 @@ if uploaded_file:
             c1, c2 = st.columns(2)
             with c1:
                 st.markdown("#### 特徵欄位與類型")
-                # 建立一個 DataFrame 來顯示欄位類型與缺失值
+                # 建立一個 DataFrame 來顯示欄位類型和缺失值
                 info_df = pd.DataFrame({
                     "資料類型": df.dtypes.astype(str),
                     "缺失值數量": df.isnull().sum(),
@@ -120,7 +123,8 @@ if uploaded_file:
 
             st.divider()
 
-            # --- 第三層：數值分佈與類別分佈 (Label Distribution) ---
+            # 第三層：類別分佈情形 (Label Distribution) 
+            # 輸出長方圖 與 圓餅圖
             st.markdown("### 分佈分析")
             d1, d2 = st.columns(2)
             
@@ -132,7 +136,6 @@ if uploaded_file:
 
             with d2:
                 # 類別分佈 (Label Distribution)
-                # 檢查是否有我們建立的 'target' 欄位，或讓使用者選擇類別欄位
                 label_col = 'target' if 'target' in df.columns else df.select_dtypes(include=['object', 'int']).columns[-1]
                 st.write(f"**類別分布 (Label Distribution): `{label_col}`**")
                 
@@ -160,7 +163,7 @@ if uploaded_file:
             numeric_df = df.select_dtypes(include=['number'])
             custom_cmap = sns.light_palette("#FFD8D8", as_cmap=True)
             sns.heatmap(numeric_df.corr(), annot=True, cmap=custom_cmap, ax=ax_corr, fmt=".2f")
-            st.pyplot(fig_corr)
+            st.pyplot(fig_corr) 
         else:
             st.info("要勾選上方的「相關性矩陣」才能看到喔")
             aol1, aol2, aol3 = st.columns(3)
@@ -173,17 +176,21 @@ if uploaded_file:
             st.subheader(f"模型評估: {algo_choice}")
             
             # 1. 準備數據
+            # X 為特徵 y 為目標（預測對象）
             #X = df.select_dtypes(include=['number']).drop(columns=['target', 'count'], errors='ignore')
             #y = df['target'] if 'target' in df.columns else df.iloc[:, -1]
             X = df.select_dtypes(include=['number']).drop(columns=['target', 'count'], errors='ignore')
             y = df['target']
-            
+
+            # 切分訓練集與測試集
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
+
+            # 標準化特徵 (Standardization)
             scaler = StandardScaler()
             X_train_scaled = scaler.fit_transform(X_train)
             X_test_scaled = scaler.transform(X_test)
 
-            # 2. 根據 UI 選擇初始化模型 (確保在這裡定義了 model)
+            # 2. 根據介面上選擇的演算法與選取參數
             if algo_choice == "支持向量機 (SVM)":
                 model = SVC(kernel=kernel_type, C=c_val, probability=True)
             elif algo_choice == "k-Nearest Neighbors (kNN)":
@@ -195,27 +202,26 @@ if uploaded_file:
             elif algo_choice == "邏輯斯迴歸 (Logistic Regression)":
                 model = LogisticRegression(C=c_lr)
 
-            # 3. 訓練模型
+            # 3. 模型訓練
             model.fit(X_train_scaled, y_train)
             y_pred = model.predict(X_test_scaled)
 
-            # --- 以下是容易出錯的地方，請確保在 model.fit 之後 ---
-
-            # 4. 獲取預測機率 (為了 ROC 曲線)
+            # 4. 獲取預測機率 (畫 ROC 曲線)
             if hasattr(model, "predict_proba"):
                 y_probs = model.predict_proba(X_test_scaled)[:, 1]
             else:
                 y_probs = model.decision_function(X_test_scaled)
 
             # 5. 計算 ROC 與 AUC
-            from sklearn.metrics import roc_curve, auc # 確保有匯入
+            #from sklearn.metrics import roc_curve, auc 
             fpr, tpr, _ = roc_curve(y_test, y_probs)
             roc_auc = auc(fpr, tpr)
             
-# --- 顯示 ---
+            # 結果展示環節 
             st.markdown("### 1. 量化指標 (Classification Report)")
             st.dataframe(pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)).T)
 
+            # 混淆矩陣與 ROC 曲線
             st.markdown("### 2. 視覺化圖表")
             res_col1, res_col2 = st.columns(2)
             with res_col1:
@@ -231,7 +237,7 @@ if uploaded_file:
                 st.write(f"**ROC 曲線 (AUC = {roc_auc:.2f})**")
                 fig_roc, ax_roc = plt.subplots(figsize=(5, 4))
                 ax_roc.plot(fpr, tpr, color='darkorange', label=f'AUC = {roc_auc:.2f}')
-                ax_roc.plot([0, 1], [0, 1], color='navy', linestyle='--')
+                ax_roc.plot([0, 1], [0, 1], color='navy', linestyle='--') # 畫 0.5 對角的基準線
                 ax_roc.legend(loc="lower right")
                 st.pyplot(fig_roc)
         else:
