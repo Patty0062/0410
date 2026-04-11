@@ -34,18 +34,23 @@ with st.container(border=True):
 
     if uploaded_file:
         df = pd.read_csv(uploaded_file)
+        
         if 'count' in df.columns:
-            df['target'] = (df['count'] > df['count'].median()).astype(int)
+            median_val = df['count'].median()
+            # 高於中位數設為1(熱門), 低於或等於設為0(冷門)
+            df['target'] = (df['count'] > median_val).astype(int)
         
         with col2:
             st.write("**2. 設定目標與分佈**")
             target_col = st.selectbox("選擇要觀察的欄位", df.select_dtypes(include=['number']).columns)
-
+            #
+        
         with col3:
             st.write("**3. 訓練設定**")
             # --- 修改處：百分比顯示 ---
             test_size_percent = st.slider("資料集比例 (%)", 20, 40, 30, 5)
             test_size = test_size_percent / 100
+            
             st.caption(f"訓練集: {100-test_size_percent}% | 測試集: {test_size_percent}%")
             
             # --- 演算法名稱 ---
