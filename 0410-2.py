@@ -173,8 +173,10 @@ if uploaded_file:
             st.subheader(f"模型評估: {algo_choice}")
             
             # 1. 準備數據
+            #X = df.select_dtypes(include=['number']).drop(columns=['target', 'count'], errors='ignore')
+            #y = df['target'] if 'target' in df.columns else df.iloc[:, -1]
             X = df.select_dtypes(include=['number']).drop(columns=['target', 'count'], errors='ignore')
-            y = df['target'] if 'target' in df.columns else df.iloc[:, -1]
+            y = df['target']
             
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
             scaler = StandardScaler()
