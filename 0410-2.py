@@ -144,7 +144,6 @@ if uploaded_file:
                 # 類別分佈 (Label Distribution)
                 label_col = 'target' if 'target' in df.columns else df.select_dtypes(include=['object', 'int']).columns[-1]
                 st.write(f"**類別分布 (Label Distribution): `{label_col}` **")
-                st.write(f"0（冷門）、1（熱門）")
 
                 fig_pie, ax_pie = plt.subplots(figsize=(5, 3.5))
                 # 取得 target 的計數 (0 有幾個，1 有幾個)
@@ -158,7 +157,9 @@ if uploaded_file:
                            colors=sns.color_palette("pastel")) # 顏色
                 ax_pie.axis('equal')  # 確保是圓形
                 st.pyplot(fig_pie)
-
+                
+                st.write(f"0（冷門）、1（熱門）")
+                
                 # 同時顯示數值表格
                 st.write("詳細計數：")
                 st.table(dist)
