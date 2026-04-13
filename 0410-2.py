@@ -159,7 +159,7 @@ if uploaded_file:
                 
                 # 同時顯示數值表格
                 st.write("詳細計數：")
-                st.table(dist)
+                st.table(dist, labels=['冷門 (0)', '熱門 (1)'])
         else:
             st.info("要勾選上方的「基本資訊」才能看到喔")
             aol1, aol2, aol3 = st.columns(3)
