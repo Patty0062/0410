@@ -141,32 +141,25 @@ if uploaded_file:
                 st.pyplot(fig_hist)
 
             with d2:
-                # 1. 取得類別計數
-                label_col = 'target' if 'target' in df.columns else df.columns[-1]
-                dist = df[label_col].value_counts()
-    
-                # 2. 修改索引名稱，讓表格和圖表都能顯示中文
-                # 假設 0 是冷門，1 是熱門
-                dist.index = dist.index.map({0: '冷門 (0)', 1: '熱門 (1)'})
-
+                # 類別分佈 (Label Distribution)
+                label_col = 'target' if 'target' in df.columns else df.select_dtypes(include=['object', 'int']).columns[-1]
                 st.write(f"**類別分布 (Label Distribution): `{label_col}`**")
-    
-                # 3. 繪製圓餅圖
+
                 fig_pie, ax_pie = plt.subplots(figsize=(5, 3.5))
-                ax_pie.pie(
-                    dist, 
-                    labels=dist.index,      # 這裡會自動帶入上面改好的 '冷門'/'熱門'
-                    autopct='%1.1f%%', 
-                    startangle=140, 
-                    colors=["#B2CEFE", "#FFB7B2"] # 馬卡龍藍與粉
-                )
-                ax_pie.axis('equal') 
+                # 取得 target 的計數 (0 有幾個，1 有幾個)
+                dist = df[label_col].value_counts()
+                
+                # 畫圓餅圖
+                ax_pie.pie(dist, labels=['冷門 (0)', '熱門 (1)'], # 設定標籤
+                           autopct='%1.1f%%', # 顯示百分比到小數點後一位
+                           startangle=140, # 旋轉角度
+                           colors=sns.color_palette("pastel")) # 顏色
+                ax_pie.axis('equal')  # 確保是圓形
                 st.pyplot(fig_pie)
-    
-                # 4. 顯示詳細計數表格
+
+                # 同時顯示數值表格
                 st.write("詳細計數：")
-                # 把 Series 轉成 DataFrame 並改個漂亮的欄位名
-                st.table(dist.to_frame(name="數量"))
+                st.table(dist)
         else:
             st.info("要勾選上方的「基本資訊」才能看到喔")
             aol1, aol2, aol3 = st.columns(3)
