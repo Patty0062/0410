@@ -1,7 +1,7 @@
 # 先下載
 # pip install streamlit pandas seaborn matplotlib scikit-learn
 # 執行
-# streamlit run 0410-2.py
+# streamlit run 程式碼名稱.py
 
 import streamlit as st
 import pandas as pd
@@ -91,14 +91,14 @@ with st.container(border=True):
             elif algo_choice == "邏輯斯迴歸 (Logistic Regression)":
                 c_lr = st.number_input("C (正則化強度)", 0.01, 100.0, 1.0, 0.1)
 
-# 主要的數據展示區
+# 展示區
 if uploaded_file:
     st.divider()
     tab1, tab2, tab3 = st.tabs(["數據總覽", "相關性矩陣", "模型預測"])
 
     with tab1:
         if show_summary:
-            # --- 第一層：基本維度與缺失值 ---
+            # 第一層：基本維度與缺失值
             st.markdown("### 基本資訊")
             m1, m2, m3 = st.columns(3)
             with m1:
@@ -111,7 +111,7 @@ if uploaded_file:
 
             st.divider()
 
-            # --- 第二層：特徵資訊與缺失值細節 ---
+            # 第二層：特徵資訊與缺失值細節
             c1, c2 = st.columns(2)
             with c1:
                 st.markdown("#### 特徵欄位與類型")
