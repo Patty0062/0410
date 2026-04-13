@@ -143,7 +143,8 @@ if uploaded_file:
             with d2:
                 # 類別分佈 (Label Distribution)
                 label_col = 'target' if 'target' in df.columns else df.select_dtypes(include=['object', 'int']).columns[-1]
-                st.write(f"**類別分布 (Label Distribution): `{label_col}` **")
+                st.write(f"**類別分布 (Label Distribution): `{label_col}`**")
+                st.write(f"**類別分布 (Label Distribution): `{label_col}`**")
 
                 fig_pie, ax_pie = plt.subplots(figsize=(5, 3.5))
                 # 取得 target 的計數 (0 有幾個，1 有幾個)
