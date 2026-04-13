@@ -1,4 +1,4 @@
-# 先下載
+# 先安裝
 # pip install streamlit pandas seaborn matplotlib scikit-learn
 # 執行
 # streamlit run 程式碼名稱.py
