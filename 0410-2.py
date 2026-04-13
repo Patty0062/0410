@@ -1,3 +1,8 @@
+# 先下載
+# pip install streamlit pandas seaborn matplotlib scikit-learn
+# 執行
+# streamlit run 0410-2.py
+
 import streamlit as st
 import pandas as pd
 import seaborn as sns
@@ -24,7 +29,7 @@ with st.container(border=True):
     uploaded_file = st.file_uploader("請先上傳你的 CSV 檔", type=["csv"])
     st.divider()
     
-    col1, col2, col3, col4 = st.columns([2, 2, 2, 3])
+    col1, col2, col3, col4 = st.columns([2, 2, 2, 3]) # # 按比例分割欄位
     
     with col1:
         st.write("**1.功能清單**")
@@ -37,15 +42,16 @@ with st.container(border=True):
         
         # 二元化轉化（以中位數為界）
         if 'count' in df.columns:
+            #算出 count 欄位的中位數
             median_val = df['count'].median()
             # 高於中位數設為1(熱門), 低於或等於設為0(冷門)
             df['target'] = (df['count'] > median_val).astype(int)
+            # 然後就會多出一個 'target' ，圓餅圖就是畫這個
         
         with col2:
             st.write("**2. 設定目標與分佈**")
             # 從選擇的數值欄位中來畫分佈圖
             target_col = st.selectbox("選擇要觀察的欄位", df.select_dtypes(include=['number']).columns)
-            #
         
         with col3:
             st.write("**3. 訓練設定**")
@@ -140,10 +146,14 @@ if uploaded_file:
                 st.write(f"**類別分布 (Label Distribution): `{label_col}`**")
                 
                 fig_pie, ax_pie = plt.subplots(figsize=(5, 3.5))
-                # 取得類別計數
+                # 取得 target 的計數 (0 有幾個，1 有幾個)
                 dist = df[label_col].value_counts()
-                # 繪製圓餅圖
-                ax_pie.pie(dist, labels=dist.index, autopct='%1.1f%%', startangle=140, colors=sns.color_palette("pastel"))
+                
+                # 畫圓餅圖
+                ax_pie.pie(dist, labels=['冷門 (0)', '熱門 (1)'], # 設定標籤
+                           autopct='%1.1f%%', # 顯示百分比到小數點後一位
+                           startangle=140, # 旋轉角度
+                           colors=sns.color_palette("pastel")) # 顏色
                 ax_pie.axis('equal')  # 確保是圓形
                 st.pyplot(fig_pie)
                 
