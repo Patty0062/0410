@@ -150,7 +150,8 @@ if uploaded_file:
                 dist = df[label_col].value_counts()
                 
                 # 畫圓餅圖
-                ax_pie.pie(dist , # 設定標籤
+                ax_pie.pie(dist ,
+                           labels=['0', '1'], # 設定標籤
                            autopct='%1.1f%%', # 顯示百分比到小數點後一位
                            startangle=140, # 旋轉角度
                            colors=sns.color_palette("pastel")) # 顏色
