@@ -38,16 +38,21 @@ with st.container(border=True):
         show_ml = st.checkbox("模型預測")
 
     if uploaded_file:
-        df = pd.read_csv(uploaded_file) # 讀取上傳的 CSV
-        
-        # 二元化轉化（以中位數為界）
+        df = pd.read_csv(uploaded_file) # 讀取上傳的 CSV      
+        # 二元化轉化（以中位數為界
         if 'count' in df.columns:
             #算出 count 欄位的中位數
             median_val = df['count'].median()
             # 高於中位數設為1(熱門), 低於或等於設為0(冷門)
             df['target'] = (df['count'] > median_val).astype(int)
             # 然後就會多出一個 'target' ，圓餅圖就是畫這個
-        
+        else:
+            # 如果沒有 count 欄位，預設抓最後一欄當 target (這是保險機制)
+            # 並且確保它是整數，這樣就不會報 KeyError
+            last_col = df.columns[-1]
+        if last_col != 'target':
+            df['target'] = df[last_col].apply(lambda x: 1 if x > df[last_col].median() else 0)
+            
         with col2:
             st.write("**2. 設定目標與分佈**")
             # 從選擇的數值欄位中來畫分佈圖
